@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        prefs = getSharedPreferences("ToolTipActivity2", MODE_PRIVATE);
+        prefs = getSharedPreferences("DialPadNumber", MODE_PRIVATE);
         activityMainBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -21,9 +21,9 @@ import java.util.Random;
 public class KeyboardView extends FrameLayout implements View.OnClickListener {
 
     private EditText mPasswordField;
-    public String givenNumber;
     private int[] tileList = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
 
 
     public KeyboardView(Context context) {
@@ -48,7 +48,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             for (int i = 0; i < tileList.length; i++) {
                 System.out.print(tileList[i] + " ");
                 TextView txtView;
-                Log.e("Text is =>", String.valueOf(tileList[i]));
+//                Log.e("Text is =>", String.valueOf(tileList[i]));
                 if (i == 0) {
                     txtView = (TextView) findViewById(R.id.t9_key_0);
                     txtView.setText(String.valueOf(tileList[i]));
@@ -121,12 +121,10 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
         // handle number button click
         if (v.getTag() != null && "number_button".equals(v.getTag())) {
             mPasswordField.append(((TextView) v).getText());
-            givenNumber = mPasswordField.getText().toString();
-            prefs = getContext().getSharedPreferences("ToolTipActivity2",Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("value", givenNumber);
+            prefs = getContext().getSharedPreferences("DialPadNumber",Context.MODE_PRIVATE);
+            editor=prefs.edit();
+            editor.putString("value", mPasswordField.getText().toString());
             editor.apply();
-//            Toast.makeText(getContext(), ""+ givenNumber, Toast.LENGTH_SHORT).show();
             return;
         }
         switch (v.getId()) {
@@ -136,6 +134,9 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
                 int charCount = editable.length();
                 if (charCount > 0) {
                     editable.delete(charCount - 1, charCount);
+
+                    editor.putString("value",mPasswordField.getText().toString());
+                    editor.apply();
                 }
             }
             break;
@@ -146,8 +147,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
 //                if (charCount > 0) {
 //                    editable.delete(charCount - 1, charCount);
 //                }
-                givenNumber = mPasswordField.getText().toString();
-                Toast.makeText(getContext(), "" +givenNumber, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" +mPasswordField.getText().toString(), Toast.LENGTH_SHORT).show();
             }
             break;
         }
